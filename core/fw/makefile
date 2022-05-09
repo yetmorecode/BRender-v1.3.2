@@ -25,8 +25,6 @@ OBJ_EXT=.obj
 LIB=wlib
 LIBFLAGS=-q
 
-
-
 ## Base library object files
 ##
 OBJS_C=&
@@ -92,21 +90,21 @@ magicsym$(OBJ_EXT)
 
 
 .c.obj:
-	$(CC) $(CFLAGS) $<
+	*$(CC) $(CFLAGS) $<
 
 .asm.obj:
-	$(AS) $(ASFLAGS) $<
+	*$(AS) $(ASFLAGS) $<
 
 $(LIBNAME): $(OBJS_C) $(OBJS_ASM)
-	$(LIB) $(LIBFLAGS) $@ $(OBJS_C: = +-)
-	$(LIB) $(LIBFLAGS) $@ $(OBJS_ASM: = +-)
+	*$(LIB) $(LIBFLAGS) $@ $(OBJS_C: = +-)
+	*$(LIB) $(LIBFLAGS) $@ $(OBJS_ASM: = +-)
+	
+clean
+	@DEL *.OBJ
+	@DEL *.LIB
 
-.default
 all: $(LIBNAME)
 
-clean
-	DEL *.OBJ
-	DEL *.LIB
 
 
 

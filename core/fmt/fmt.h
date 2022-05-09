@@ -9,6 +9,12 @@
 #ifndef _FMT_H_
 #define _FMT_H_
 
+#include "camera.h"
+#include "actor.h"
+#include "light.h"
+#include "model.h"
+
+
 /*
  * Structure for passing results back from foreign format loaders
  */

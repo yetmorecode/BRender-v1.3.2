@@ -11,6 +11,7 @@
 #include "brender.h"
 #include "load3ds.h"
 #include "brassert.h"
+#include "fmt.h"
 
 BR_RCS_ID("$Id: load3ds.c 1.3 1998/07/28 14:33:23 jon Exp $")
 
@@ -238,7 +239,7 @@ STATIC Bool_t SkipRest(void *stream, Stack_t *top)
 	if(SkipBytes(stream, top->length - top->done)) {
 		top->done = top->length;
 		return TRUE;
-	}	
+	}
 
 	return FALSE;
 }
@@ -634,7 +635,7 @@ STATIC MaterialList_t * ConvertMaterial(MatEntry_t *mat_entry, PixmapList_t **pi
     /* Set the RGB true colour. This will only be used when rendering
      * 24-bit, but a clever application could use this to generate its
      * colour ramps.
-	 *	
+	 *
      * As per Sam's instructions, the diffuse colour is used as the
      * material's colour. The Ambient and specular colours only affect
      * Ka and Ks.
@@ -1462,7 +1463,7 @@ STATIC br_model * MakeModelFromMaps(NTriObj_t *n_tri_obj,
     BrStrCat(full_name,suffix);
 
     model = BrModelAllocate(full_name,n_vertices,n_faces);
-    
+
     /*
      * Set model updatable flags or BrSaveModelMany complains. aac
      */
@@ -3324,7 +3325,7 @@ br_fmt_results * BR_PUBLIC_ENTRY BrFmt3DSLoad(char *name, br_fmt_options *fmt_op
 									ReportMessage(options->report, "File version %d.0\n", version);
 								} else {
 									ReportMessage(options->report,
-										"File version %d.0 (only able to read version 3.0 chunks)\n", version); 
+										"File version %d.0 (only able to read version 3.0 chunks)\n", version);
 								}
 							}
 #endif
@@ -4021,7 +4022,7 @@ br_fmt_results * BR_PUBLIC_ENTRY BrFmt3DSLoad(char *name, br_fmt_options *fmt_op
 									ReportMessage(options->report, "Keyframe data version %d.0\n", version);
 								} else {
 									ReportMessage(options->report,
-										"Keyframe data version %d.0 (only able to read version 1.0 and 2.0 chunks)\n", version); 
+										"Keyframe data version %d.0 (only able to read version 1.0 and 2.0 chunks)\n", version);
 								}
 							}
 #endif
@@ -4890,7 +4891,7 @@ br_fmt_results * BR_PUBLIC_ENTRY BrFmt3DSLoad(char *name, br_fmt_options *fmt_op
                         parent->flags |= GOT_MESH_MATRIX;
                     }
                     break;
-  
+
                 case MESH_TEXTURE_INFO :
                     if (state == OK) {
                         parent->flags |= GOT_MESH_TEXTURE_INFO;

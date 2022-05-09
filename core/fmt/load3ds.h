@@ -9,6 +9,10 @@
 #ifndef _LOAD3DS_H_
 #define _LOAD3DS_H_
 
+#include "material.h"
+#include "model.h"
+#include "light.h"
+
 /*
  * Compile-time options
  */
@@ -440,7 +444,7 @@ typedef struct TexVerts_t {
 } TexVerts_t;
 
 /*
- * An intermediate triangle mesh structure 
+ * An intermediate triangle mesh structure
  */
 typedef struct NTriObj_t {
     PointArray_t point_array;
