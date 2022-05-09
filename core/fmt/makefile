@@ -7,7 +7,7 @@
 #
 #.IMPORT: BR_SOURCE_DIR BR_MAKEFILE BR_TARGET_DIR BR_MAKE_DIR
 
-LIBNAME=brfm
+LIBNAME=brfm.lib
 #TARGET_TYPE:=LIB
 
 INCLUDES=-I..\..\inc -I..\inc -I..\..\ddi_inc
@@ -18,7 +18,7 @@ ASFLAGS=-zq -c -DBASED_FLOAT=1 $(INCLUDES)
 CC=wcc386
 CFLAGS=-zq -DBASED_FLOAT=1 -DSTATIC=static 
 CFLAGS+= $(INCLUDES)
-CFLAGS+= -D__BR_V1DB__=0 
+CFLAGS+= -D__BR_V1DB__=1 
 OBJ_EXT=.obj
 
 LIB=wlib
@@ -59,7 +59,6 @@ OBJS_C=&
 
 $(LIBNAME): $(OBJS_C) $(OBJS_ASM)
 	*$(LIB) $(LIBFLAGS) $@ $(OBJS_C: = +-)
-	*$(LIB) $(LIBFLAGS) $@ $(OBJS_ASM: = +-)
 	
 clean
 	@DEL *.OBJ

@@ -13,6 +13,7 @@
 #include "actor.h"
 #include "light.h"
 #include "model.h"
+#include "material.h"
 
 
 /*
