@@ -1,0 +1,4 @@
+*.obj
+*.bak
+Working Copy*.*
+*.err

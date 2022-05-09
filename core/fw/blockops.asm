@@ -14,7 +14,8 @@
 
 ; void BR_ASM_CALL BrBlockFill(void *dest_ptr, int value, int dwords);
 ;
-BrBlockFill proc uses eax ecx edi es, dest:ptr dword,  value:dword, count:dword
+BrBlockFill proc 
+;arg @@dest:ptr dword,  @@value:dword, @@count:dword
 		mov	ax,ds
 		mov	es,ax
 		mov	eax,value
@@ -26,7 +27,7 @@ BrBlockFill endp
 
 ; void BR_ASM_CALL BrBlockCopy(void *dest_ptr, void *src_ptr, int dwords);
 ;
-BrBlockCopy proc uses ecx esi edi es, dest:ptr dword, src:ptr dword, count:dword
+BrBlockCopy proc ;, dest:ptr dword, src:ptr dword, count:dword
 		mov	ax,ds
 		mov	es,ax
 		mov	esi,src
@@ -38,7 +39,7 @@ BrBlockCopy endp
 
 ; void BR_ASM_CALL BrFarBlockCopy(void __far *dest_ptr, void *src_ptr, int dwords);
 ;
-BrFarBlockCopy proc uses ecx esi edi es, dest:far ptr dword, src:ptr dword, count:dword
+BrFarBlockCopy proc ; uses ecx esi edi es, dest:far ptr dword, src:ptr dword, count:dword
 		mov	ecx,count
 		mov	esi,src
 		les	edi,dest

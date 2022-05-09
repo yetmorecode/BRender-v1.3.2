@@ -81,13 +81,13 @@ br_error BR_PUBLIC_ENTRY BrDeviceEnum(br_device_enum_cbfn *cbfn, void *args)
 
 	// If BRENDER_DEVICES is not set, use whatever value is
 	// in BRENDER_DEFAULT_DEVICE instead.
-	
+
 	if (*devices_str == '\0') {
-		BrSystemConfigQueryString(BRT_DEFAULT_DEVICE_STR, 
+		BrSystemConfigQueryString(BRT_DEFAULT_DEVICE_STR,
 		                          devices_str, BR_ASIZE(devices_str));
 		pass_args = BR_FALSE;
 	}
-	
+
 	for (device_name = devices_str; !terminate && *device_name != '\0'; device_name = next_device) {
 
 		/*
@@ -239,7 +239,8 @@ br_error BR_PUBLIC_ENTRY BrOutputFacilityEnum(char *name,
 {
     br_device *device;
     br_object **objects;
-    br_int_32 max, n;
+    br_uint_32 max;
+    br_int_32 n;
     br_error r;
     br_boolean terminate = BR_FALSE, remove = BR_FALSE;
 
