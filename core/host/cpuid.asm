@@ -10,11 +10,18 @@
 				.586
 				.model   small,c
 
-				include host.inc
+				;include host.inc
 
 				.code
+BRT_INTEL_386 equ 427
+BRT_INTEL_486 equ 428
+BRT_INTEL_PENTIUM equ 429
+BRT_INTEL_PENTIUM_PRO equ 430
+HOST_CAPS_MMX = 0x400
+HOST_CAPS_FPU = 0x800
+HOST_CAPS_CMOV = 0x1000
 
-CPUInfo			proc	uses ebx esi edi, cpu_type:ptr dword, features: ptr dword
+CPUInfo			proc	uses ebx esi edi, cpu_type:dword, features:dword
 
 	; Assume 386 as worst case
 	;
@@ -72,7 +79,9 @@ CPUInfo			proc	uses ebx esi edi, cpu_type:ptr dword, features: ptr dword
 				shr		eax, 8							  ; isolate family
 				and		eax, 0fh
 
-                                cmp             eax,(cpu_types_end-cpu_types)/sizeof(dword)
+FOO = (cpu_types_end - cpu_types) / 4
+
+                                cmp             eax,FOO
                                 jl              known_cpu                                
 
 				mov		eax,6							  ; treat any future cpus as p-pros.
@@ -116,7 +125,7 @@ no_cmov:
 				cmp		ecx,064616574h    ; "tead"
 				jnz		NotCyrix
 				mov		eax,[esi]
-				and		eax,NOT HOST_CAPS_CMOV   ; clear CMOV bit
+				;and		eax,NOT HOST_CAPS_CMOV   ; clear CMOV bit
 				mov		[esi],eax
 NotCyrix:
 

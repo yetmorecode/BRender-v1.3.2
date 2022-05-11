@@ -6,100 +6,128 @@
 # Makefile for BRender DOS Host support libary
 #
 #
-.IMPORT: BR_SOURCE_DIR BR_MAKEFILE BR_TARGET_DIR BR_MAKE_DIR
-.IMPORT .IGNORE: BR_EXTENDER
+#.IMPORT: BR_SOURCE_DIR BR_MAKEFILE BR_TARGET_DIR BR_MAKE_DIR
+#.IMPORT .IGNORE: BR_EXTENDER
 
-BR_BASE_TYPE=NONE
-TARGET_TYPE:=LIB
-CFLAGS+=-D__BR_V1DB__=0
-LIB_INC:=host
-RES_IMAGE=hostimg
+
+INCLUDES=-I..\..\inc -I..\inc -I..\..\ddi_inc 
+
+AS=wasm
+ASFLAGS=-zq -c -DBASED_FLOAT=1 $(INCLUDES)
+
+CC=wcc386
+CFLAGS=-zq -DBASED_FLOAT=1 -DSTATIC=static 
+CFLAGS+= $(INCLUDES) -D__BR_V1DB=0 
+OBJ_EXT=.obj
+
+LIB=wlib
+LIBFLAGS=-q
+
+#BR_BASE_TYPE=NONE
+#TARGET_TYPE:=LIB
+#CFLAGS+=-D__BR_V1DB__=0
+#LIB_INC:=host
+#RES_IMAGE=hostimg
 
 # Select flags and library name based on extender type
 #
-.IF $(BR_EXTENDER) == PHARLAP
+#.IF $(BR_EXTENDER) == PHARLAP
 
-CFLAGS+=-D__PHARLAP386__=1 -D__DOS__=1
-ASFLAGS+=-D__PHARLAP386__=1  -D__DOS__=1
-LIB_PART:=hstpl
-BLD_BASE:=bpl
+#CFLAGS+=-D__PHARLAP386__=1 -D__DOS__=1
+#ASFLAGS+=-D__PHARLAP386__=1  -D__DOS__=1
+#LIB_PART:=hstpl
+#BLD_BASE:=bpl
 
-.ELIF $(BR_EXTENDER) == X32
+#.ELIF $(BR_EXTENDER) == X32
 
-CFLAGS+=-D__X32__=1 -D__DOS__=1
-ASFLAGS+=-D__X32__=1  -D__DOS__=1
-LIB_PART:=hstx3
-BLD_BASE:=bx3
+#CFLAGS+=-D__X32__=1 -D__DOS__=1
+#ASFLAGS+=-D__X32__=1  -D__DOS__=1
+#LIB_PART:=hstx3
+#BLD_BASE:=bx3
 
-.ELIF $(BR_EXTENDER) == X32VM
+#.ELIF $(BR_EXTENDER) == X32VM
 
-CFLAGS+=-D__X32__=1  -D__DOS__=1
-ASFLAGS+=-D__X32__=1 -D__DOS__=1
-LIB_PART:=hstx3
-BLD_BASE:=bx3
+#CFLAGS+=-D__X32__=1  -D__DOS__=1
+#ASFLAGS+=-D__X32__=1 -D__DOS__=1
+#LIB_PART:=hstx3
+#BLD_BASE:=bx3
 
-.ELIF $(BR_EXTENDER) == DOS4GW
-
-CFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
-ASFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
-LIB_PART:=hst4g
-BLD_BASE:=b4g
-
-.ELIF $(BR_EXTENDER) == DOS4GWPRO
+#.ELIF $(BR_EXTENDER) == DOS4GW
 
 CFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
-ASFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
-LIB_PART:=hst4g
-BLD_BASE:=b4g
+ASFLAGS+=-D__DOS4G__=1 -D__DPMI__=1
+LIBNAME=hst4g.lib
+#BLD_BASE:=b4g
 
-.ELIF $(BR_EXTENDER) == POWERPACK
+#.ELIF $(BR_EXTENDER) == DOS4GWPRO
 
-CFLAGS+=-D__POWERPACK__=1 -D__DPMI__=1 -D__DOS__=1 -WX
-ASFLAGS+=-D__POWERPACK__=1 -D__DPMI__=1 -D__DOS__=1
-LIB_PART:=hstpp
-BLD_BASE:=bpp
+#CFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
+#ASFLAGS+=-D__DOS4G__=1 -D__DPMI__=1 -D__DOS__=1
+#LIB_PART:=hst4g
+#BLD_BASE:=b4g
 
-.ELIF $(BR_EXTENDER) == GO32
+#.ELIF $(BR_EXTENDER) == POWERPACK
 
-CFLAGS+=-D__GO32__=1 -D__DPMI__=1 -D__DOS__=1
-ASFLAGS+=-D__GO32__=1 -D__DPMI__=1 -D__DOS__=1
-LIB_PART:=hstdj
-BLD_BASE:=bdj
+#CFLAGS+=-D__POWERPACK__=1 -D__DPMI__=1 -D__DOS__=1 -WX
+#ASFLAGS+=-D__POWERPACK__=1 -D__DPMI__=1 -D__DOS__=1
+#LIB_PART:=hstpp
+#BLD_BASE:=bpp
 
-.ELIF $(BR_EXTENDER) == WIN_32
+#.ELIF $(BR_EXTENDER) == GO32
 
-CFLAGS+=-D__WIN_32__=1 -U__DOS__
-ASFLAGS+=-D__WIN_32__=1
-LIB_PART:=hstwn
-BLD_BASE:=bwn
+#CFLAGS+=-D__GO32__=1 -D__DPMI__=1 -D__DOS__=1
+#ASFLAGS+=-D__GO32__=1 -D__DPMI__=1 -D__DOS__=1
+#LIB_PART:=hstdj
+#BLD_BASE:=bdj
 
-.IF $(BR_MAKEFILE) == watcom.mak
-CFLAGS +=-bt=nt
-.END
+#.ELIF $(BR_EXTENDER) == WIN_32
 
-.END
+#CFLAGS+=-D__WIN_32__=1 -U__DOS__
+#ASFLAGS+=-D__WIN_32__=1
+#LIB_PART:=hstwn
+#BLD_BASE:=bwn
+
+#.IF $(BR_MAKEFILE) == watcom.mak
+#CFLAGS +=-bt=nt
+#.END
+
+#.END
 
 ## Base library object files
 ##
-OBJS_C=\
-	$(BLD_DIR)/himage$(OBJ_EXT)\
-	$(BLD_DIR)/hook$(OBJ_EXT)\
-	$(BLD_DIR)/hostcfg$(OBJ_EXT)\
-	$(BLD_DIR)/hstsetup$(OBJ_EXT)\
-	$(BLD_DIR)/memmgmt$(OBJ_EXT)\
-	$(BLD_DIR)/ports$(OBJ_EXT)\
+OBJS_C=&
+	himage$(OBJ_EXT) &
+	hook$(OBJ_EXT) &
+	hostcfg$(OBJ_EXT) &
+	hstsetup$(OBJ_EXT) &
+	memmgmt$(OBJ_EXT) &
+	ports$(OBJ_EXT)
 
-OBJS_ASM=\
-	$(BLD_DIR)/cpuid$(OBJ_EXT)\
-	$(BLD_DIR)/farmem$(OBJ_EXT)\
-	$(BLD_DIR)/prot$(OBJ_EXT)\
-	$(BLD_DIR)/real$(OBJ_EXT)\
-	$(BLD_DIR)/realmem$(OBJ_EXT)\
-	$(BLD_DIR)/segregs$(OBJ_EXT)\
+OBJS_ASM=&
+	cpuid$(OBJ_EXT) &
+	farmem$(OBJ_EXT) &
+	prot$(OBJ_EXT) &
+	real$(OBJ_EXT) &
+	realmem$(OBJ_EXT) &
+	segregs$(OBJ_EXT)
 
-EXPORT_INCLUDES=\
-	$(DDI_INC_DIR)/host.h\
-	$(DDI_INC_DIR)/host_p.h\
+#EXPORT_INCLUDES=\
+#	$(DDI_INC_DIR)/host.h\
+#	$(DDI_INC_DIR)/host_p.h\
 
-.INCLUDE: $(BR_MAKE_DIR)/$(BR_MAKEFILE)
+#.INCLUDE: $(BR_MAKE_DIR)/$(BR_MAKEFILE)
 
+.c.obj:
+	*$(CC) $(CFLAGS) $<
+
+.asm.obj:
+	*$(AS) $(ASFLAGS) $<
+
+$(LIBNAME): $(OBJS_C) $(OBJS_ASM)
+	*$(LIB) $(LIBFLAGS) $@ $(OBJS_C: = +-)
+	
+clean
+	@DEL *.OBJ
+	@DEL *.LIB
+
+all: $(LIBNAME)

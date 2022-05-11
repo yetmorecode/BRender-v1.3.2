@@ -9,7 +9,7 @@
 ;;
 	.386p
 	.model flat,c
-	include host.inc
+	;include host.inc
 
 if ADD_RCS_ID
 	.data
@@ -20,7 +20,7 @@ endif
 
 ; br_error BR_RESIDENT_ENTRY HostInterruptGet(br_uint_8 vector, br_uint_32 *offp, br_uint_16 *selp);
 ;
-HostInterruptGet	proc uses ebx es, vector: dword, voffp:ptr dword, vsegp:ptr word
+HostInterruptGet	proc uses ebx es, vector: dword, voffp:dword, vsegp:dword
 	ifdef __DPMI__
 		xor	ebx,ebx
 		mov	bl,byte ptr vector
@@ -71,7 +71,7 @@ HostInterruptSet	endp
 ; br_error BR_RESIDENT_ENTRY HostExceptionGet(br_uint_8 exception, br_uint_32 *offp, br_uint_16 *selp);
 ;
 ;
-HostExceptionGet	proc uses ebx, vector: dword, voffp:ptr dword, vsegp:ptr word
+HostExceptionGet	proc uses ebx, vector: dword, voffp:ptr, vsegp:ptr
 	ifdef __DPMI__
 		xor	ebx,ebx
 		mov	bl,byte ptr vector
@@ -135,7 +135,7 @@ save_edi	dd	?
 save_ebp	dd	?
 hic_local	ends
 
-HostInterruptCall proc uses ebx esi edi es fs gs, vec:dword, regs: ptr host_regs
+HostInterruptCall proc uses ebx esi edi es fs gs, vec:dword, regs: ptr
 
 	; Set up local workspace on stack
 	;

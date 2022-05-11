@@ -91,19 +91,19 @@ HostFarStringRead proc uses es esi edi, p_off:dword, p_seg:dword, block:dword, c
 	and	ecx,ecx
 	je	exit
 
-lp:
+lp2:
 	mov	dl,es:[edi]
 	mov	[esi],dl
 	inc	eax
 	and	dl,dl
-	je	exit
+	je	exit2
 	inc	esi
 	inc	edi
 	dec	ecx
-	jne	lp
+	jne	lp2
 
 	mov	byte ptr [esi-1],0
-exit:
+exit2:
 	ret
 HostFarStringRead endp
 
